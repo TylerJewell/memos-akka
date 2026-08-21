@@ -1,0 +1,480 @@
+[
+  {
+    "name": "durable-recency",
+    "sequence": "admissions",
+    "why": "R12 \u2014 a tier over capacity keeps the most recently updated. Eight admissions with distinct update instants into a tier of five, the survivors recorded after each one, because a rule about what a tier keeps is a rule about a sequence.",
+    "sortKey": "updatedAtSeconds",
+    "capacity": 5,
+    "rows": [
+      {
+        "key": "n0",
+        "updatedAtSeconds": 0
+      },
+      {
+        "key": "n1",
+        "updatedAtSeconds": 60
+      },
+      {
+        "key": "n2",
+        "updatedAtSeconds": 120
+      },
+      {
+        "key": "n3",
+        "updatedAtSeconds": 180
+      },
+      {
+        "key": "n4",
+        "updatedAtSeconds": 240
+      },
+      {
+        "key": "n5",
+        "updatedAtSeconds": 300
+      },
+      {
+        "key": "n6",
+        "updatedAtSeconds": 360
+      },
+      {
+        "key": "n7",
+        "updatedAtSeconds": 420
+      }
+    ]
+  },
+  {
+    "name": "durable-arrival-order-ties",
+    "sequence": "arrival-orders",
+    "why": "R14 \u2014 six memories sharing ONE update instant, delivered six ways into a tier of two. This is the experiment: with distinct instants the sort erases the variable and both sides agree on every order while nothing has been tested.",
+    "sortKey": "updatedAtSeconds",
+    "capacity": 2,
+    "rows": [
+      {
+        "key": "t0",
+        "updatedAtSeconds": 0
+      },
+      {
+        "key": "t1",
+        "updatedAtSeconds": 0
+      },
+      {
+        "key": "t2",
+        "updatedAtSeconds": 0
+      },
+      {
+        "key": "t3",
+        "updatedAtSeconds": 0
+      },
+      {
+        "key": "t4",
+        "updatedAtSeconds": 0
+      },
+      {
+        "key": "t5",
+        "updatedAtSeconds": 0
+      }
+    ],
+    "orders": [
+      [
+        "t0",
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ],
+      [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t0"
+      ],
+      [
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t0",
+        "t1"
+      ],
+      [
+        "t3",
+        "t4",
+        "t5",
+        "t0",
+        "t1",
+        "t2"
+      ],
+      [
+        "t4",
+        "t5",
+        "t0",
+        "t1",
+        "t2",
+        "t3"
+      ],
+      [
+        "t5",
+        "t4",
+        "t3",
+        "t2",
+        "t1",
+        "t0"
+      ]
+    ],
+    "whyTheseOrders": "rotations plus the reverse, which is what toolkit/order_probe.py falls back to above six records: every record reaches a different position in each order. Exhausting 720 permutations against a real database would be 720 tier rebuilds for six distinct answers at most"
+  },
+  {
+    "name": "durable-arrival-order-distinct",
+    "sequence": "arrival-orders",
+    "why": "The control, and labelled as one. Same six memories with distinct update instants: both sides must give one answer across every delivery order, and this workload on its own could not tell an order-dependent implementation from an order-independent one.",
+    "sortKey": "updatedAtSeconds",
+    "capacity": 2,
+    "rows": [
+      {
+        "key": "d0",
+        "updatedAtSeconds": 0
+      },
+      {
+        "key": "d1",
+        "updatedAtSeconds": 60
+      },
+      {
+        "key": "d2",
+        "updatedAtSeconds": 120
+      },
+      {
+        "key": "d3",
+        "updatedAtSeconds": 180
+      },
+      {
+        "key": "d4",
+        "updatedAtSeconds": 240
+      },
+      {
+        "key": "d5",
+        "updatedAtSeconds": 300
+      }
+    ],
+    "orders": [
+      [
+        "d0",
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d5"
+      ],
+      [
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d5",
+        "d0"
+      ],
+      [
+        "d2",
+        "d3",
+        "d4",
+        "d5",
+        "d0",
+        "d1"
+      ],
+      [
+        "d3",
+        "d4",
+        "d5",
+        "d0",
+        "d1",
+        "d2"
+      ],
+      [
+        "d4",
+        "d5",
+        "d0",
+        "d1",
+        "d2",
+        "d3"
+      ],
+      [
+        "d5",
+        "d4",
+        "d3",
+        "d2",
+        "d1",
+        "d0"
+      ]
+    ],
+    "whyTheseOrders": "rotations plus the reverse, which is what toolkit/order_probe.py falls back to above six records: every record reaches a different position in each order. Exhausting 720 permutations against a real database would be 720 tier rebuilds for six distinct answers at most"
+  },
+  {
+    "name": "ranked-arrival-order-ties",
+    "sequence": "arrival-orders",
+    "why": "R11 \u2014 three memories sharing ONE importance score, delivered six ways into a ranked tier of two. The sort key here is the rerank score, not an instant, which is why each workload names its own.",
+    "sortKey": "rerank",
+    "capacity": 2,
+    "retention": 0,
+    "rows": [
+      {
+        "key": "p",
+        "rerank": 0.5
+      },
+      {
+        "key": "q",
+        "rerank": 0.5
+      },
+      {
+        "key": "r",
+        "rerank": 0.5
+      }
+    ],
+    "orders": [
+      [
+        "p",
+        "q",
+        "r"
+      ],
+      [
+        "p",
+        "r",
+        "q"
+      ],
+      [
+        "q",
+        "p",
+        "r"
+      ],
+      [
+        "q",
+        "r",
+        "p"
+      ],
+      [
+        "r",
+        "p",
+        "q"
+      ],
+      [
+        "r",
+        "q",
+        "p"
+      ]
+    ],
+    "whyTheseOrders": "every permutation: three records is six orders, so nothing is sampled"
+  },
+  {
+    "name": "sweep-threshold",
+    "sequence": "fill-levels",
+    "why": "R13\u2013R16 \u2014 every tier filled to each fraction of its limit and then swept, recording which tiers were asked and what each held afterwards. The interesting rows are 80% and 99%, where the store is asked and removes nothing.",
+    "sortKey": "fill",
+    "limits": {
+      "WorkingMemory": 20,
+      "LongTermMemory": 1500,
+      "RawFileMemory": 1500,
+      "UserMemory": 480
+    },
+    "rows": [
+      {
+        "fill": 0.5
+      },
+      {
+        "fill": 0.79
+      },
+      {
+        "fill": 0.8
+      },
+      {
+        "fill": 0.99
+      },
+      {
+        "fill": 1.0
+      },
+      {
+        "fill": 1.5
+      }
+    ]
+  },
+  {
+    "name": "ranked-observation",
+    "sequence": "rounds",
+    "why": "R5\u2013R11 \u2014 four rounds over one ranked tier. Retention, the score reset it applies and the capacity cut that then discards what retention saved cannot be seen in any single round; the third and fourth rounds are where they separate.",
+    "sortKey": "round",
+    "capacity": 3,
+    "retention": 2,
+    "initial": [
+      {
+        "key": "keep-a",
+        "rerank": 0.9
+      },
+      {
+        "key": "keep-b",
+        "rerank": 0.8
+      },
+      {
+        "key": "drop-c",
+        "rerank": 0.7
+      },
+      {
+        "key": "drop-d",
+        "rerank": 0.6
+      }
+    ],
+    "rows": [
+      {
+        "round": 0,
+        "observed": [
+          {
+            "key": "new-e",
+            "rerank": 0.95
+          },
+          {
+            "key": "keep-a",
+            "rerank": 0.9
+          }
+        ]
+      },
+      {
+        "round": 1,
+        "observed": [
+          {
+            "key": "new-e",
+            "rerank": 0.4
+          }
+        ]
+      },
+      {
+        "round": 2,
+        "observed": [
+          {
+            "key": "new-f",
+            "rerank": 0.85
+          }
+        ]
+      },
+      {
+        "round": 3,
+        "observed": [
+          {
+            "key": "keep-a",
+            "rerank": 0.2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "promotion",
+    "sequence": "rounds",
+    "why": "R19, R31 \u2014 thirty memories observed into an unbounded working tier, then promoted twice, recording the activation tier after each. The second promotion is what shows promotion is an observation rather than a copy.",
+    "sortKey": "round",
+    "workingCapacity": -1,
+    "activationCapacity": 20,
+    "retention": 2,
+    "workingSize": 30,
+    "rows": [
+      {
+        "round": 0
+      },
+      {
+        "round": 1
+      }
+    ]
+  },
+  {
+    "name": "query-window",
+    "sequence": "rounds",
+    "why": "R21, R22 \u2014 five queries into a window of three, the window recorded after each.",
+    "sortKey": "round",
+    "size": 3,
+    "rows": [
+      {
+        "round": 0,
+        "query": "a"
+      },
+      {
+        "round": 1,
+        "query": "b"
+      },
+      {
+        "round": 2,
+        "query": "c"
+      },
+      {
+        "round": 3,
+        "query": "d"
+      },
+      {
+        "round": 4,
+        "query": "e"
+      }
+    ]
+  },
+  {
+    "name": "importance-score",
+    "sequence": "inputs",
+    "why": "R1\u2013R3 \u2014 the arithmetic, both caps, both saturation points, the uninitialised floor and the crossover where a maxed keyword score ties a rerank score.",
+    "sortKey": "index",
+    "weights": [
+      0.9,
+      0.05,
+      0.05
+    ],
+    "rows": [
+      {
+        "index": 0,
+        "rerank": 1.0,
+        "keyword": 0.0,
+        "observations": 1
+      },
+      {
+        "index": 1,
+        "rerank": 0.0,
+        "keyword": 1.0,
+        "observations": 1
+      },
+      {
+        "index": 2,
+        "rerank": 0.0,
+        "keyword": 0.0,
+        "observations": 2
+      },
+      {
+        "index": 3,
+        "rerank": 0.0,
+        "keyword": 0.0,
+        "observations": 1
+      },
+      {
+        "index": 4,
+        "rerank": 0.0,
+        "keyword": 1000000000.0,
+        "observations": 1
+      },
+      {
+        "index": 5,
+        "rerank": 0.0,
+        "keyword": 0.0,
+        "observations": 1000000000
+      },
+      {
+        "index": 6,
+        "rerank": 0.277778,
+        "keyword": 0.0,
+        "observations": 1
+      },
+      {
+        "index": 7,
+        "rerank": -1.0,
+        "keyword": -1.0,
+        "observations": 1
+      },
+      {
+        "index": 8,
+        "rerank": 0.5,
+        "keyword": 3.0,
+        "observations": 2
+      }
+    ]
+  }
+]
