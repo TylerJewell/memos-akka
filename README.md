@@ -33,7 +33,7 @@ under `memos-port/`.
 ⚡ 180,989 nanoseconds to rank one group of thirty → **4,524**<br>
 ⚡ 5,984 nanoseconds to decide which groups need trimming → **896**<br>
 ⚡ 11,895 nanoseconds to record five recent questions → **401**<br>
-⏱️ 1.9 hours to build, 1.4 of them active, 0.3M tokens written
+⏱️ 2.0 hours to build, 1.5 of them active, 0.4M tokens written
 
 Full method and the numbers that did *not* make this list:
 [`bench/REPORT.md`](https://github.com/TylerJewell/akka-specify-harness/blob/main/memos-port/bench/REPORT.md).
@@ -42,9 +42,9 @@ Full method and the numbers that did *not* make this list:
 
 ## What it took to build
 
-⏱️ **1.9 hours** from the first command to the published repository, **1.4** of them active<br>
+⏱️ **2.0 hours** from the first command to the published repository, **1.5** of them active<br>
 💬 **342** exchanges with the model<br>
-✍️ **341,666** tokens written by the model, **79,387,628** counting everything sent and re-sent<br>
+✍️ **369,588** tokens written by the model, **95,729,319** counting everything sent and re-sent<br>
 🙋 **0** questions to a human<br>
 🧪 **73** tests
 
